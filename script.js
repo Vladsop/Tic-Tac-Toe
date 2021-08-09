@@ -5,7 +5,7 @@ var markedCells = 0;
 //Generates 3x3 game table according to the Tic Tac Toe game rules.
 function generateGrid() {
     document.getElementById("restartGame").style.display = "none";
-    printMessage("Player X is the first one that ticks the grid!");
+    printMessage("Player X starts first!");
     let container = document.getElementById("grid");
     for (let i = 1; i <= 9; ++i) {
         let cell = document.createElement("div");
