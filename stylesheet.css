@@ -47,7 +47,7 @@ h6 {
     text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
 }
 
-#cell1:hover, #cell2:hover, #cell3:hover, #cell4:hover, #cell5:hover, #cell6:hover, #cell7:hover, #cell8:hover, #cell1:hover {
+#cell1:hover, #cell2:hover, #cell3:hover, #cell4:hover, #cell5:hover, #cell6:hover, #cell7:hover, #cell8:hover, #cell9:hover {
     background-color: transparent;
     color: white;
 }
