@@ -1,48 +1,42 @@
-generateGrid();
+printMessage(generateGrid());
 var turn = null;
 var markedCells = 0;
 
 //Generates 3x3 game table according to the Tic Tac Toe game rules.
+//Built-in cell marking based on the users input.
 function generateGrid() {
     document.getElementById("restartGame").style.display = "none";
-    printMessage("Player X starts first!");
     let container = document.getElementById("grid");
     for (let i = 1; i <= 9; ++i) {
         let cell = document.createElement("div");
         cell.id = "cell" + i;
         container.appendChild(cell);
         document.getElementById("cell" + i).onclick = function() {
-            markCell("cell" + i);
+            document.getElementById("cell" + i).innerHTML = playerTurn();
+            document.getElementById("cell" + i).onclick = null;
+            ++markedCells;
+            checkWinner();
         };
     }
+    return "Player X starts first!";
 }
 
-//Checks the players turn according to the state of the last turn;
+//Checks and prints the players turn according to the state of the last turn;
 function playerTurn() {
     if (turn === null) {
         turn = "X";
+        printMessage("It's Player O turn");
     } else if (turn === "X") {
         turn = "O";
+        printMessage("It's Player X turn");
     } else {
         turn = "X";
+        printMessage("It's Player O turn");
     }
     return turn;
 }
 
-//Marks the cells according to the users input and calls the checkWinner() function;
-function markCell(id) {
-    document.getElementById(id).innerHTML = playerTurn();
-    document.getElementById(id).onclick = null;
-    if (document.getElementById(id).innerHTML === "X") {
-        printMessage("It's Player O turn");
-    } else if (document.getElementById(id).innerHTML === "O") {
-        printMessage("It's Player X turn");
-    }
-    ++markedCells;
-    checkWinner();
-}
-
-//Checks all the possible  winning combinations.
+//Checks all the possible winning combinations.
 function checkWinner() {
     if (cell1.innerHTML == cell2.innerHTML && cell2.innerHTML == cell3.innerHTML && cell1.innerHTML != "") {
         printMessage(showWinner(cell1, cell2, cell3));
@@ -85,11 +79,11 @@ function showWinner(firstId, secondId, thirdId) {
     return "The winner is Player " + firstId.innerHTML;
 }
 
-//Clears the grid and generated a new one to play again.
+//Clears the grid and generates a new one to play again.
 function restartGame() {
     document.getElementById("grid").innerHTML = null;
+    printMessage(generateGrid());
     message.style.animation = "none";
-    generateGrid();
     turn = null;
     markedCells = 0;
 }
