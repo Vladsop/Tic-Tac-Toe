@@ -48,9 +48,14 @@ function playerTurn() {
 
 //Checks all the possible winning combinations.
 function checkWinner() {
+<<<<<<< HEAD
     let winnerFound = null;
     for (let i = 0; i < 8; ++i) {
         let countX = 0, countO = 0;
+=======
+    for (let i = 0; i < 8; ++i) {
+        let countX = 0,countO = 0;
+>>>>>>> bb2726ce567d960df78921bf90e02b36fed26eea
         let cellId = [2];
         for (let j = 0; j < 3; ++j) {
             cellId[j] = document.getElementById("cell" + winningCombinations[i][j]);
@@ -62,11 +67,18 @@ function checkWinner() {
             }
             if (countX === 3 || countO === 3) {
                 printMessage(showWinner(cellId[0], cellId[1], cellId[2]));
+<<<<<<< HEAD
                 winnerFound = true;
             }
         }
     }
     if (markedCells === 9 && !winnerFound) {
+=======
+            }
+        }
+    }
+    if (markedCells === 9) {
+>>>>>>> bb2726ce567d960df78921bf90e02b36fed26eea
         printMessage("It's a tie!")
         document.getElementById("restartGame").style.display = "block";
     }
