@@ -1,6 +1,16 @@
-printMessage(generateGrid());
+window.onload = printMessage(generateGrid());
 var turn = null;
 var markedCells = 0;
+const winningCombinations = [
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 5, 9],
+    [3, 5, 7]
+];
 
 //Generates 3x3 game table according to the Tic Tac Toe game rules.
 //Built-in cell marking based on the users input.
@@ -38,57 +48,59 @@ function playerTurn() {
 
 //Checks all the possible winning combinations.
 function checkWinner() {
-    if (cell1.innerHTML == cell2.innerHTML && cell2.innerHTML == cell3.innerHTML && cell1.innerHTML != "") {
-        printMessage(showWinner(cell1, cell2, cell3));
-    } else if (cell4.innerHTML == cell5.innerHTML && cell5.innerHTML == cell6.innerHTML && cell4.innerHTML != "") {
-        printMessage(showWinner(cell4, cell5, cell6));
-    } else if (cell7.innerHTML == cell8.innerHTML && cell8.innerHTML == cell9.innerHTML && cell7.innerHTML != "") {
-        printMessage(showWinner(cell7, cell8, cell9));
-    } else if (cell1.innerHTML == cell4.innerHTML && cell4.innerHTML == cell7.innerHTML && cell1.innerHTML != "") {
-        printMessage(showWinner(cell1, cell4, cell7));
-    } else if (cell2.innerHTML == cell5.innerHTML && cell5.innerHTML == cell8.innerHTML && cell2.innerHTML != "") {
-        printMessage(showWinner(cell2, cell5, cell8));
-    } else if (cell3.innerHTML == cell6.innerHTML && cell6.innerHTML == cell9.innerHTML && cell3.innerHTML != "") {
-        printMessage(showWinner(cell3, cell6, cell9));
-    } else if (cell1.innerHTML == cell5.innerHTML && cell5.innerHTML == cell9.innerHTML && cell1.innerHTML != "") {
-        printMessage(showWinner(cell1, cell5, cell9));
-    } else if (cell3.innerHTML == cell5.innerHTML && cell5.innerHTML == cell7.innerHTML && cell3.innerHTML != "") {
-        printMessage(showWinner(cell3, cell5, cell7));
-    } else if (markedCells === 9) {
+    let winnerFound = null;
+    for (let i = 0; i < 8; ++i) {
+        let countX = 0, countO = 0;
+        let cellId = [2];
+        for (let j = 0; j < 3; ++j) {
+            cellId[j] = document.getElementById("cell" + winningCombinations[i][j]);
+            let cellValue = document.getElementById("cell" + winningCombinations[i][j]).innerHTML;
+            if (cellValue === "X") {
+                ++countX;
+            } else if (cellValue === "O") {
+                ++countO;
+            }
+            if (countX === 3 || countO === 3) {
+                printMessage(showWinner(cellId[0], cellId[1], cellId[2]));
+                winnerFound = true;
+            }
+        }
+    }
+    if (markedCells === 9 && !winnerFound) {
         printMessage("It's a tie!")
         document.getElementById("restartGame").style.display = "block";
     }
 }
 
-//Highlights the winning combination and disables further onclick actions for all cells.
-function showWinner(firstId, secondId, thirdId) {
-    for (let i = 1; i <= 9; ++i) {
-        document.getElementById("cell" + i).onclick = null;
+    //Highlights the winning combination and disables further onclick actions for all cells.
+    function showWinner(firstId, secondId, thirdId) {
+        for (let i = 1; i <= 9; ++i) {
+            document.getElementById("cell" + i).onclick = null;
+        }
+        message.style.animation = "bounce 0.4s infinite alternate";
+        firstId.style.color = "white";
+        firstId.style.border = "3px solid";
+        firstId.style.animation = "zoom-in-zoom-out 2s infinite alternate";
+        secondId.style.color = "white";
+        secondId.style.border = "3px solid";
+        secondId.style.animation = "zoom-in-zoom-out 2s infinite alternate";
+        thirdId.style.color = "white";
+        thirdId.style.border = "3px solid";
+        thirdId.style.animation = "zoom-in-zoom-out 2s infinite alternate";
+        document.getElementById("restartGame").style.display = "block";
+        return "The winner is Player " + firstId.innerHTML;
     }
-    message.style.animation = "bounce 0.4s infinite alternate";
-    firstId.style.color = "white";
-    firstId.style.border = "3px solid";
-    firstId.style.animation = "zoom-in-zoom-out 2s infinite alternate";
-    secondId.style.color = "white";
-    secondId.style.border = "3px solid";
-    secondId.style.animation = "zoom-in-zoom-out 2s infinite alternate";
-    thirdId.style.color = "white";
-    thirdId.style.border = "3px solid";
-    thirdId.style.animation = "zoom-in-zoom-out 2s infinite alternate";
-    document.getElementById("restartGame").style.display = "block";
-    return "The winner is Player " + firstId.innerHTML;
-}
 
-//Clears the grid and generates a new one to play again.
-function restartGame() {
-    document.getElementById("grid").innerHTML = null;
-    printMessage(generateGrid());
-    message.style.animation = "none";
-    turn = null;
-    markedCells = 0;
-}
+    //Clears the grid and generates a new one to play again.
+    function restartGame() {
+        document.getElementById("grid").innerHTML = null;
+        printMessage(generateGrid());
+        message.style.animation = "none";
+        turn = null;
+        markedCells = 0;
+    }
 
-//Prints all messages according to parameters it receives from the other functions.
-function printMessage(message) {
-    return document.getElementById("message").innerHTML = message;
-}
+    //Prints all messages according to parameters it receives from the other functions.
+    function printMessage(message) {
+        return document.getElementById("message").innerHTML = message;
+    }
